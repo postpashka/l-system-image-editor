@@ -1,0 +1,125 @@
+#iAdd {
+	
+	background-image: url(add.svg);
+
+}
+
+#iSave {
+	background-image: url(save.svg);
+
+}
+
+
+#iDraw{
+	background-image: url(draw.svg);
+}
+
+#iText{
+	background-image: url(text.svg);
+}
+
+#iImage{
+	background-image: url(image.svg);
+}
+
+#iPNG{
+	background-image: url(png.svg);
+}
+
+#iSVG{
+	background-image: url(svg.svg);
+}
+
+#iJSON{
+	background-image: url(json.svg);
+}
+
+
+#iRect{
+	background-image: url(rect.svg);
+}
+
+#iCircle{
+	background-image: url(circle.svg);
+}
+
+#iTriangle{
+	background-image: url(triangle.svg);
+}
+
+#iSystem{
+	background-image: url(fractal.svg);
+}
+
+#iOptions{
+	background-image: url(options.svg);
+}
+
+#iClear{
+	background-image: url(trash_can.svg);
+}
+#iDel{
+	background-image: url(del.svg);
+}
+
+
+#iGradient{
+	background-image: url(gradient.svg);
+}
+
+#iShadow{
+	background-image: url(shadow.svg);
+}
+
+
+#iBold {
+	background-image: url(bold.svg);
+}
+
+#iItalic {
+	background-image: url(italic.svg);
+}
+
+#iUnderline {
+	background-image: url(underline.svg);
+
+}
+
+#iTextLeft {
+	background-image: url(text_left.svg);
+}
+
+#iTextRight {
+	background-image: url(text_right.svg);
+}
+
+#iTextCenter {
+	background-image: url(text_center.svg);
+}
+
+#iCheck {
+	background-image: url(check.svg);
+
+}
+
+
+#iPencil {
+	background-image: url(pencil.svg);
+
+}
+
+#iSpray {
+	background-image: url(spray.svg);
+
+}
+
+#iBubbles {
+	background-image: url(bubbles.svg);
+
+}
+
+#iMerge {
+	background-image: url(merge.svg);
+
+}
+

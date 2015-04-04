@@ -1,0 +1,151 @@
+* { margin:0; padding:0; } 
+
+canvas {
+	position:absolute;
+}
+
+#bd-wrapper{
+	position:absolute;
+    z-index: 12;
+	width: 5%;
+	height: 7%;
+	min-width: 45px;
+	min-height: 45px;
+
+
+}	
+
+
+.opts {
+	
+		position: absolute;
+		width: 400%;
+		height: 100%;
+        margin-left: 100%;
+        margin-top: -100%;
+		background-color: #fdf;
+	}
+
+.tab{
+	height:100%;
+	width:100%;
+
+}
+
+
+	
+li  {
+		
+		display: inline-block;
+		width: 100%;
+		height: 100%;
+		list-style: none;
+		background-color: #ddf;
+		margin: 0px 5px;
+		padding: 0px;
+		}
+			
+		
+
+span{
+	min-width: 45px;
+	min-height: 45px;
+	float:left;    
+	width: 25%;
+	height: 100%;
+	margin: 0px;	
+	}
+
+	
+
+.svg-icons{
+
+	background: #fff;
+	padding-top: 100%;
+	background-size: cover;
+
+}
+
+
+input[type=range] {
+    width: 100%;
+	height: 100%;
+	margin: 0;
+	border: none;
+}
+
+input[type=number],  input[type=text]{
+    width: 35%;
+	height: 80%;
+	margin: 0;
+	border: none;
+	float:left;
+	margin-left: 10%;
+	margin-top: 2%;
+}
+
+select,textarea {
+	border: 0;
+	position: relative; 
+	width: 100%;
+	height: 50%;
+	resize : none;
+	margin: 5% 0;
+	font-size: 100%;
+}
+
+
+
+input[type=radio] {
+    display:none; 
+}
+
+#text-wrapper{
+	width:100%;
+	height:100%;
+}
+
+.input-color-wrapper{
+	position:relative;
+	height:100%;
+	width:100%;
+
+}
+
+input[type=color] {
+	width: 100%;
+	height: 100%;
+	position:relative;
+
+}
+
+input[type=file] {
+		height:100%;
+		width: 25%;
+		position:absolute;
+		opacity:0;
+		filter:alpha(opacity:0);
+		cursor:pointer;
+		padding:0px;
+		margin:0px;
+
+}
+
+
+.text-opts {
+	position: relative; 
+	width: 40%;	
+	height: 40%;
+	margin: 0 5%;
+	float:left;
+}
+.text-opts > div{
+
+	width: 30%;
+	float: left;
+	height: 100%;
+}
+
+
+
+

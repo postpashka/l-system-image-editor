@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="editor">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Image editor</title>
+    <script src="js/libs/fabric.js"></script>
+    <script src="js/l-system/algs.js"></script>
+	<script src="js/l-system/ls_controls.js"></script>
+    <script src="js/libs/angular.js"></script>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/svgs/svg.css">
+	<link rel="stylesheet" href="css/style.css">
+    <link href='http://fonts.googleapis.com/css?family=Plaster' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Engagement' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+	
+
+		
+
+			<ul id="bd-wrapper" ng-controller="CanvasControls" tab>
+				<li class="tab">
+
+
+					<div ng-click="select('add')" id="iAdd" class="svg-icons"></div>	
+
+					<ul ng-show="selected == 'add'" class="opts" >
+						
+						<li>
+							<span>
+								<div class="svg-icons" ng-click="addCircle()" id="iCircle"></div>
+							</span>
+							<span>
+								<div class="svg-icons" ng-click="addTriangle()" id="iTriangle"></div>
+							</span>
+							<span>
+								<div class="svg-icons" ng-click="addRect()" id="iRect"></div>
+							</span>
+							
+						</li>
+						
+						<li>
+							<span>	
+								<input  type="file" multiple  pc-file-upload accept="image/*"/>	
+									<div id="iImage" class="svg-icons" > 											
+									</div>
+							</span>
+						</li>
+						
+						<li>
+							<span>
+									<div class="svg-icons" ng-click="addText()" id="iText"></div>
+							</span>
+						</li>
+						
+					</ul>
+					
+
+				</li >	
+
+				
+
+				<li  class="tab">
+					
+					<div class="svg-icons" ng-click="select('save')" id="iSave"></div>
+					<ul ng-show="selected == 'save'" class="opts">
+						<li>
+							<span>
+								<div class="svg-icons" ng-click="rasterize()" id="iPNG"></div>
+							</span>
+							<span>
+								<div class="svg-icons" ng-click="rasterizeSVG()" id="iSVG"></div>
+							</span>
+							<span>
+								<div class="svg-icons" ng-click="rasterizeJSON()" id="iJSON"></div>
+							</span>
+						</li >
+					</ul>
+				</li >
+				<li class="tab">
+					<div class="svg-icons" ng-click="select('draw')" id="iDraw"></div>
+					
+					<ul ng-show="selected == 'draw'" class="opts">
+						
+						<li>
+							<span>
+
+									<div>
+										<input id="rLeft" type="radio" name="text-align" value="Pencil" bind-value-to="drawingMode"><label for="rLeft"><div class="svg-icons" id="iPencil" ></div></label>
+									</div>
+							</span>
+							<span>
+									<div>
+										<input id="rRight" type="radio" name="text-align" value="Circle" bind-value-to="drawingMode"><label for="rRight"><div class="svg-icons" id="iBubbles" ></div></label> 
+									</div>
+							
+							</span>
+							<span>
+							
+									<div>
+										<input id="rCenter"type="radio" name="text-align" value="Spray" bind-value-to="drawingMode"><label for="rCenter"><div class="svg-icons" id="iSpray" ></div></label>
+									</div>
+
+									
+									
+							</span>
+							<span>
+								<div class="input-color-wrapper">
+									<input type="color" value="#005E7A" bind-value-to="drawingLineColor">
+								</div>
+							</span>
+						</li >
+						<li>
+
+								<input type="range" value="30" min="0" max="150" bind-value-to="drawingLineWidth">
+						</li>
+						
+					</ul>
+				</li >	
+				
+				
+				<li class="tab">
+
+						<input type="color" bind-value-to="canvasBgColor" id="color">
+
+				</li>
+				<li class="tab"><div class="svg-icons" ng-click="confirmClear()" id="iClear"></div></li>
+				
+			
+			
+		
+			<div  ng-show="canvas.getActiveObject() || canvas.getActiveGroup()">
+					
+				<li class="tab">
+					<div class="svg-icons" ng-click="select('lSystem')" id="iSystem"></div>
+					<ul ng-show="selected == 'lSystem'"  class="opts">
+
+							<li class="nullable">
+
+									<select id="ls-select" ng-model="(canvas.getActiveObject() || canvas.getActiveGroup()).LSAlg" bind-value-to="LSAlg" ng-options="lsAlg[0] for lsAlg in lsAlgs">
+									<option value="">--it's time to choose--</option>
+								
+									</select>
+								<ul>
+									<li ng-repeat="item in curAlg[5]">
+									<input type="text" class="input-block-level" placeholder="Rule" ng-model="item.rule"></li>
+								</ul>
+	
+							</li>
+							<li>
+	
+								<input type="range" value="" min="1" max="5" step="1" ng-model="canvas.getActiveObject().LSAlg[1]" bind-value-to="Iteration">
+							</li>
+							<li>
+
+								<input type="range" value="" min="0" max="180" step="10" ng-model="canvas.getActiveObject().LSAlg[2]" bind-value-to="Angle">
+								
+							</li>
+
+
+							
+							<li>
+
+								<input type="range" value="" min="50" max="200" step="1" ng-model="canvas.getActiveObject().BaseSize" bind-value-to="scaleBaseSize">
+
+							</li>
+							<li>
+
+						
+								<span>
+										<div id="start" ><div class="svg-icons" ng-click="save()" id="iCheck"></div></div>
+								</span>
+							</li>
+							<li>
+								<div id="status"></div>
+							</li>
+
+					</ul>
+				</li>
+				<li class="tab" ng-show="canvas.getActiveObject() !=null && canvas.getActiveObject().type != 'image'">	
+					
+					<div class="svg-icons" ng-click="select('colorOpacity')" id="iOptions"></div>
+					<ul ng-show="selected == 'colorOpacity'" class="opts">
+
+
+							<li >
+
+
+								<span>
+										<div class="svg-icons" id="iGradient" ng-click="gradientify()"></div>
+								</span>
+								<span>
+										<div class="svg-icons" id="iShadow" ng-click="shadowify()"></div>
+								</span>
+								<span>
+									<input type="color" bind-value-to="fill">
+								<</span>
+
+							</li>
+
+							<li id="element-options">
+
+								<input value="100" type="range" bind-value-to="opacity">
+
+							</li>
+							
+							<div ng-show="getText()" id="text-wrapper">
+								
+								<li id="text-li">
+										<div class ="text-opts">
+											<div>
+												<div class="svg-icons" id="iBold"
+													ng-click="toggleBold()"
+													ng-class="{'btn-inverse': isBold()}">
+												</div>
+											</div>
+											<div>
+												<div class="svg-icons" id="iItalic"
+													ng-click="toggleItalic()"
+													ng-class="{'btn-inverse': isItalic()}">
+												</div>
+											</div >
+											<div>
+												<div class="svg-icons" id="iUnderline"
+													ng-click="toggleUnderline()"
+													ng-class="{'btn-inverse': isUnderline()}">
+												</div>
+											</div>
+										</div>
+										<div class="text-opts">
+											<div>
+												<input id="rLeft" type="radio" name="text-align" value="Left" bind-value-to="textAlign"><label for="rLeft"><div class="svg-icons" id="iTextLeft" ></div></label>
+											</div>
+											<div>
+												<input id="rRight" type="radio" name="text-align" value="Right" bind-value-to="textAlign"><label for="rRight"><div class="svg-icons" id="iTextRight" ></div></label> 
+											</div>
+											<div>
+												<input id="rCenter"type="radio" name="text-align" value="Center" bind-value-to="textAlign"><label for="rCenter"><div class="svg-icons" id="iTextCenter" ></div></label>
+											</div>
+											
+										</div>
+										<select id="font-family" class="btn-object-action" bind-value-to="fontFamily">
+											<option value="arial">Arial</option>
+											<option value="helvetica" selected>Helvetica</option>
+											<option value="myriad pro">Myriad Pro</option>
+											<option value="delicious">Delicious</option>
+											<option value="verdana">Verdana</option>
+											<option value="georgia">Georgia</option>
+											<option value="courier">Courier</option>
+											<option value="comic sans ms">Comic Sans MS</option>
+											<option value="impact">Impact</option>
+											<option value="monaco">Monaco</option>
+											<option value="optima">Optima</option>
+											<option value="hoefler text">Hoefler Text</option>
+											<option value="plaster">Plaster</option>
+											<option value="engagement">Engagement</option>
+										</select>
+								</li>
+
+								<li>
+									<textarea bind-value-to="text"></textarea>
+								</li>
+								<li>
+									<span>
+
+											<input type="color" id="text-bg-color"  bind-value-to="bgColor">
+									</span>
+									<span>
+
+											<input type="color" id="text-lines-bg-color" c bind-value-to="textBgColor">
+
+									</span>
+									<span>
+
+											<input type="color"  id="text-stroke-color" bind-value-to="strokeColor">
+
+									</span>
+								</li>
+								<li>	
+									<input type="range" value="" min="0" max="10" step="0.1" id="text-line-height" class="btn-object-action" bind-value-to="lineHeight">
+								</li>
+
+								<li>	
+									<input type="range" value="" min="1" max="120" step="1" id="text-font-size" class="btn-object-action" bind-value-to="fontSize">
+								</li>
+								<li>
+									<input type="range" value="1" min="1" max="5" id="text-stroke-width" class="btn-object-action" bind-value-to="strokeWidth">
+								</li>
+							
+
+							</div> 
+							
+					</ul>
+				</li>
+				
+				<li class="tab" ng-show="canvas.getActiveGroup()" >
+					<div class="svg-icons" ng-click="merge()" id="iMerge"></div>
+				</li>
+				
+				<li class="tab">
+					<div class="svg-icons" ng-click="confirmDelete()" ng-show="canvas.getActiveObject() || canvas.getActiveGroup()" id="iDel"></div>
+				</li>
+
+
+				
+				
+			</div>
+			</ul>
+			
+            <!--/TOOLS-->
+			
+
+	  <canvas id="canvas"></canvas>
+      <script src="js/utils.js"></script>
+      <script src="js/app_config.js"></script>
+      <script src="js/canvas_controls.js"></script>
+	  
+	  
+	  
+    </div>
+  </body>
+</html>
